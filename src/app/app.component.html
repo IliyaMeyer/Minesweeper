@@ -1,3 +1,6 @@
 <!DOCTYPE html>
 
-<app-options></app-options>
+<app-options (settingsEmitter)="gameSettings=$event"></app-options>
+{{gameSettings[0] + gameSettings[1]}}
+
+<app-minefield></app-minefield>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-options',
@@ -7,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OptionsComponentComponent implements OnInit {
 
-  public setDifficulty : string = "Normal";
-  public setSize : string = "Small";
+  public gameDifficulty : string = "normal";
+  public gameSize : string = "medium";
+
+  @Output() public settingsEmitter = new EventEmitter();
 
   constructor() { }
+
+  sendSettings(){
+    this.settingsEmitter.emit([this.gameSize, this.gameDifficulty]);
+  }
 
   ngOnInit(): void {
   }
