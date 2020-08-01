@@ -1,0 +1,12 @@
+.individualOptions{
+    padding-bottom: 10px;
+    text-align: left;
+    padding-left: 40px;
+}
+
+.mainContainer{
+    border-style: solid;
+    width: 175px;
+    text-align: center;
+    padding-bottom: 20px;
+}
