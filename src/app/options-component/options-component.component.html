@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
-<div class="mainContainer">
+<div class="mainContainer" (click)="test">
     <div class="sizeContainer">
         <h3>Size</h3>
         <div class="individualOptions">
-            <input type="radio" id="large" name="boardSize" value="large" [(ngModel)]="gameSize">
+            <input type="radio" id="large" name="boardSize" value=32 [(ngModel)]="gameSize">
             <label for="large">Large</label>
         </div>
         <div class="individualOptions">
-            <input type="radio" id="medium" name="boardSize" value="medium"[(ngModel)]="gameSize">
+            <input type="radio" id="medium" name="boardSize" value=16 [(ngModel)]="gameSize">
             <label for="medium">Medium</label>
         </div>
         <div class="individualOptions">
-            <input type="radio" id="small" name="boardSize" value="small"[(ngModel)]="gameSize">
+            <input type="radio" id="small" name="boardSize" value=8 [(ngModel)]="gameSize">
             <label for="small">Small</label>
         </div>
     </div>
@@ -33,4 +33,5 @@
         <button (click)="sendSettings()">New Game</button>
     </div>
 </div>
-{{gameSize + gameDifficulty}}
+{{gameSize}} {{gameDifficulty}}
+<br>

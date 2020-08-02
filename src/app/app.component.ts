@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'minesweeper-game';
-  public gameSettings = ["medium", "normal"];
+  public gameSettings = [16, "normal"];
 }

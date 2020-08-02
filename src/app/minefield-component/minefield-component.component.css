@@ -1,0 +1,9 @@
+.gameBoard{
+    background-color: black;
+    background-image: url(/assets/img/tile-unclicked.png);
+    border-style: solid;
+}
+
+img{
+    background-repeat: repeat;
+}

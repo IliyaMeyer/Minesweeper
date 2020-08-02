@@ -8,12 +8,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class OptionsComponentComponent implements OnInit {
 
   public gameDifficulty : string = "normal";
-  public gameSize : string = "medium";
+  public gameSize = "16";
 
   @Output() public settingsEmitter = new EventEmitter();
 
   constructor() { }
-
+test(){
+  console.log('Works');
+}
   sendSettings(){
     this.settingsEmitter.emit([this.gameSize, this.gameDifficulty]);
   }
