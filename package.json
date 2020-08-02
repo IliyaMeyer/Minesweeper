@@ -1,5 +1,5 @@
 {
-  "name": "minesweeper-game",
+  "name": "minesweeper",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -42,5 +42,7 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }
