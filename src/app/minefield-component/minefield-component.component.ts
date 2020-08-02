@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MinefieldComponentComponent implements OnInit {
 
   public board = [[]];
+  public gameStarted = false;
+  public totalBombs
   @Input() public gameSettings = [];
 
   constructor() { }
@@ -19,6 +21,9 @@ export class MinefieldComponentComponent implements OnInit {
     return Array(n);
   }
 
+  onClick(event){
+    
+  }
   //happens when the user hits the 'New Game' button
   newGame(){
 

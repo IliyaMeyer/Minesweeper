@@ -2,7 +2,7 @@
 
 {{gameSettings[0]}} {{gameSettings[1]}}
 
-<div class="gameBoard" style="
+<div (click)="onClick($event)" class="gameBoard" style="
                             width: {{gameSettings[0] * 20}}px;
                             height: {{gameSettings[0] * 20}}px
                             ">

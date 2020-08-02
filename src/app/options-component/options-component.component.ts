@@ -13,9 +13,7 @@ export class OptionsComponentComponent implements OnInit {
   @Output() public settingsEmitter = new EventEmitter();
 
   constructor() { }
-test(){
-  console.log('Works');
-}
+
   sendSettings(){
     this.settingsEmitter.emit([this.gameSize, this.gameDifficulty]);
   }
