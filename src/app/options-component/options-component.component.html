@@ -1,37 +1,73 @@
 <!DOCTYPE html>
 
 <div class="mainContainer">
-    <div class="sizeContainer">
-        <h3>Size</h3>
-        <div class="individualOptions">
-            <input type="radio" id="large" name="boardSize" value=32 [(ngModel)]="gameSize">
-            <label for="large">Large</label>
-        </div>
-        <div class="individualOptions">
-            <input type="radio" id="medium" name="boardSize" value=16 [(ngModel)]="gameSize">
-            <label for="medium">Medium</label>
-        </div>
-        <div class="individualOptions">
-            <input type="radio" id="small" name="boardSize" value=8 [(ngModel)]="gameSize">
-            <label for="small">Small</label>
-        </div>
+  <div class="sizeContainer">
+    <h3>Sizes</h3>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="large"
+        name="boardSize"
+        value="32"
+        [(ngModel)]="gameSize"
+      />
+      <label for="large">Large</label>
     </div>
-    <div class="difficultyContainer">
-        <h3>Difficulty</h3>
-        <div class="individualOptions">
-            <input type="radio" id="hard" name="gameDifficulty" value="hard"[(ngModel)]="gameDifficulty">
-            <label for="hard">Hard</label>
-        </div>
-        <div class="individualOptions">
-            <input type="radio" id="normal" name="gameDifficulty" value="normal"[(ngModel)]="gameDifficulty">
-            <label for="normal">Normal</label>
-        </div>
-        <div class="individualOptions">
-            <input type="radio" id="easy" name="gameDifficulty" value="easy"[(ngModel)]="gameDifficulty">
-            <label for="easy">Easy</label>
-        </div>
-        <button (click)="sendSettings()">New Game</button>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="medium"
+        name="boardSize"
+        value="16"
+        [(ngModel)]="gameSize"
+      />
+      <label for="medium">Medium</label>
     </div>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="small"
+        name="boardSize"
+        value="8"
+        [(ngModel)]="gameSize"
+      />
+      <label for="small">Small</label>
+    </div>
+  </div>
+  <div class="difficultyContainer">
+    <h3>Difficulty</h3>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="hard"
+        name="gameDifficulty"
+        value="hard"
+        [(ngModel)]="gameDifficulty"
+      />
+      <label for="hard">Hard</label>
+    </div>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="normal"
+        name="gameDifficulty"
+        value="normal"
+        [(ngModel)]="gameDifficulty"
+      />
+      <label for="normal">Normal</label>
+    </div>
+    <div class="individualOptions">
+      <input
+        type="radio"
+        id="easy"
+        name="gameDifficulty"
+        value="easy"
+        [(ngModel)]="gameDifficulty"
+      />
+      <label for="easy">Easy</label>
+    </div>
+    <button (click)="sendSettings()">New Game</button>
+  </div>
 </div>
 {{gameSize}} {{gameDifficulty}}
-<br>
+<br />
