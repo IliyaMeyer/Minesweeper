@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MinefieldComponentComponent implements OnInit {
 
   //sets the URLs for various image files
-  public unclickedTileURL = "https://imgur.com/vjXs34u.png";
+  public unclickedTileURL = "/assets/img/tile-unclicked.png";
 
   //utility variables
   public minefield = [];
@@ -25,6 +25,12 @@ export class MinefieldComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //specifically used to build the tiles on the board
+  tileBuilder(){
+    return Array(this.gameSettings[0] * this.gameSettings[0]);
+  }
+
+  //occurs whenever the user clicks a tile
   onClick(event){
 
     //gets the coordinates of the tile which was clicked
@@ -35,9 +41,14 @@ export class MinefieldComponentComponent implements OnInit {
       this.newGame(clickPosition);
     else {
 
-      
+      //TODO
 
     }
+
+  }
+
+  //determines what tile to put in the spot
+  setTile(position){
 
   }
 
