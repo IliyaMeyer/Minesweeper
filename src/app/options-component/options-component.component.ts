@@ -10,7 +10,7 @@ export class OptionsComponentComponent implements OnInit {
   public gameDifficulty : string = "normal";
 
   //sets the number of tiles for each size
-  public largeGameSize = "32";
+  public largeGameSize = "24";
   public mediumGameSize = "16";
   public smallGameSize = "8";
 
