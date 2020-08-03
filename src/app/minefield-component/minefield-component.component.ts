@@ -9,7 +9,8 @@ export class MinefieldComponentComponent implements OnInit {
 
   public board = [[]];
   public gameStarted = false;
-  public totalBombs
+  public tileWidth = 20; //width of each tile
+  public totalBombs;
   @Input() public gameSettings = [];
 
   constructor() { }
@@ -17,13 +18,11 @@ export class MinefieldComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  repeatNTimes(n : Number){
-    return Array(n);
+  onClick(event){
+    console.log((typeof(this.tileWidth)));
+    console.log((typeof(this.gameSettings[0])));
   }
 
-  onClick(event){
-    
-  }
   //happens when the user hits the 'New Game' button
   newGame(){
 

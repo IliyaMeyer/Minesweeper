@@ -8,7 +8,7 @@
         type="radio"
         id="large"
         name="boardSize"
-        value="32"
+        value={{largeGameSize}}
         [(ngModel)]="gameSize"
       />
       <label for="large">Large</label>
@@ -18,7 +18,7 @@
         type="radio"
         id="medium"
         name="boardSize"
-        value="16"
+        value={{mediumGameSize}}
         [(ngModel)]="gameSize"
       />
       <label for="medium">Medium</label>
@@ -28,7 +28,7 @@
         type="radio"
         id="small"
         name="boardSize"
-        value="8"
+        value={{smallGameSize}}
         [(ngModel)]="gameSize"
       />
       <label for="small">Small</label>
