@@ -6,3 +6,7 @@
 img{
     background-repeat: repeat;
 }
+
+.tile19{
+    background-image: url(/assets/img/tile-clicked-0.png);
+}

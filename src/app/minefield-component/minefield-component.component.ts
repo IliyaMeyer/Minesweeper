@@ -13,7 +13,7 @@ export class MinefieldComponentComponent implements OnInit {
 
   //holds all the URL's for the various different tiles
   public boxURL = {
-    "-1": "/assets/img/tile-clicked-0.png",
+    "-1": "/assets/img/tile-clicked-mine.png",
     "0": "/assets/img/tile-clicked-0.png",
     "1": "/assets/img/tile-clicked-1.png",
     "2": "/assets/img/tile-clicked-2.png",
@@ -70,8 +70,7 @@ export class MinefieldComponentComponent implements OnInit {
   //give an integer n representing the nth tile, converts to a coordinate: y,x
   //this needs a better name
   nToXYIndex(n){
-    console.log(n);
-    return [n / this.gameSettings[0], n % this.gameSettings[0]];
+    return [Math.floor(n / this.gameSettings[0]), n % this.gameSettings[0]];
   }
 
   //determines what tile to put in the spot
@@ -80,7 +79,7 @@ export class MinefieldComponentComponent implements OnInit {
       return this.boxURL["unc"];
     let cords = this.nToXYIndex(position);
     if (this.clickfield[cords[0]][cords[1]])
-      return this.boxURL[this.minefield[cords[0]][cords[1]]];
+      return this.boxURL[this.minefield[cords[0]][cords[1]].toString()];
     else
       return this.boxURL["unc"];
   }
@@ -97,7 +96,6 @@ export class MinefieldComponentComponent implements OnInit {
     this.clickfield = [];
     for (let i = 0; i < this.gameSettings[0]; i++)
     this.clickfield.push(new Array(this.gameSettings[0]).fill(false));
-    console.log(this.gameSettings[0]);
 
     //initializes all the values in the board to be 0
     this.minefield = [];
@@ -147,7 +145,7 @@ export class MinefieldComponentComponent implements OnInit {
     }
 
     this.gameStarted = true;
-
+    console.log(this.minefield);
   }
 
 }
