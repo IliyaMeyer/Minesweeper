@@ -5,7 +5,7 @@
 <div (click)="onClick($event)" class="gameBoard" style="
                             width: {{gameSettings[0] * tileWidth}}px;
                             height: {{gameSettings[0] * tileWidth}}px;
-                            background-image: url({{unclickedTileURL}});
+                            background-image: url({{boxURL['unc']}});
                             background-color: black;
                             border-style: solid;
                             ">
@@ -18,5 +18,5 @@
                             border-style: solid;
                             font-size: 0;
                             ">
-    <img src="{{unclickedTileURL}}" *ngFor="let rep of tileBuilder(); index as i">
+    <img src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i">
 </div>

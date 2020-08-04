@@ -9,9 +9,27 @@ export class MinefieldComponentComponent implements OnInit {
 
   //sets the URLs for various image files
   public unclickedTileURL = "/assets/img/tile-unclicked.png";
+  public clicked0TileURL = "/assets/img/tile-clicked-0.png";
+
+  //holds all the URL's for the various different tiles
+  public boxURL = {
+    "-1": "/assets/img/tile-clicked-0.png",
+    "0": "/assets/img/tile-clicked-0.png",
+    "1": "/assets/img/tile-clicked-1.png",
+    "2": "/assets/img/tile-clicked-2.png",
+    "3": "/assets/img/tile-clicked-3.png",
+    "4": "/assets/img/tile-clicked-4.png",
+    "5": "/assets/img/tile-clicked-5.png",
+    "6": "/assets/img/tile-clicked-6.png",
+    "7": "/assets/img/tile-clicked-7.png",
+    "8": "/assets/img/tile-clicked-8.png",
+    "9": "/assets/img/tile-clicked-9.png",
+    "unc": "/assets/img/tile-unclicked.png"
+  }
 
   //utility variables
   public minefield = [];
+  public clickfield = []; //stores which mines have been clicked
   public gameStarted = false;
   public totalMines; //how many mines are currently on the board
   @Input() public gameSettings = []; //the game's settings - [size, difficulty]
@@ -20,12 +38,14 @@ export class MinefieldComponentComponent implements OnInit {
   public difficultyRatios = [1/8, 2/8, 3/8]; //sets the ratios of bomb to non-bomb tiles
   public tileWidth = 20; //width of each tile
 
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
   }
 
-  //specifically used to build the tiles on the board
+  //specifically used for the ngFor in the html for buidling the tile images
   tileBuilder(){
     return Array(this.gameSettings[0] * this.gameSettings[0]);
   }
@@ -47,9 +67,22 @@ export class MinefieldComponentComponent implements OnInit {
 
   }
 
+  //give an integer n representing the nth tile, converts to a coordinate: y,x
+  //this needs a better name
+  nToXYIndex(n){
+    console.log(n);
+    return [n / this.gameSettings[0], n % this.gameSettings[0]];
+  }
+
   //determines what tile to put in the spot
   setTile(position){
-
+    if (!this.gameStarted)
+      return this.boxURL["unc"];
+    let cords = this.nToXYIndex(position);
+    if (this.clickfield[cords[0]][cords[1]])
+      return this.boxURL[this.minefield[cords[0]][cords[1]]];
+    else
+      return this.boxURL["unc"];
   }
 
   //given the position of a click relative to the board component, returns coordinates of the tile which was clicked
@@ -59,6 +92,12 @@ export class MinefieldComponentComponent implements OnInit {
 
   //happens when the user hits the 'New Game' button
   newGame(startPosition){
+
+    //resizes the clickfield
+    this.clickfield = [];
+    for (let i = 0; i < this.gameSettings[0]; i++)
+    this.clickfield.push(new Array(this.gameSettings[0]).fill(false));
+    console.log(this.gameSettings[0]);
 
     //initializes all the values in the board to be 0
     this.minefield = [];
