@@ -51,10 +51,9 @@ export class MinefieldComponentComponent implements OnInit {
   }
 
   //occurs whenever the user clicks a tile
-  onClick(event){
-
+  onClick(i : number){
     //gets the coordinates of the tile which was clicked
-    let clickPosition = this.getTile(event.offsetX, event.offsetY);
+    let clickPosition = this.nToXYIndex(i);
 
     //if it is the first move, builds the board, otherwise it treats it as a normal move
     if (this.gameStarted == false)
@@ -69,12 +68,12 @@ export class MinefieldComponentComponent implements OnInit {
 
   //give an integer n representing the nth tile, converts to a coordinate: y,x
   //this needs a better name
-  nToXYIndex(n){
+  nToXYIndex(n : number){
     return [Math.floor(n / this.gameSettings[0]), n % this.gameSettings[0]];
   }
 
   //determines what tile to put in the spot
-  setTile(position){
+  setTile(position : number){  
     if (!this.gameStarted)
       return this.boxURL["unc"];
     let cords = this.nToXYIndex(position);
@@ -85,12 +84,39 @@ export class MinefieldComponentComponent implements OnInit {
   }
 
   //given the position of a click relative to the board component, returns coordinates of the tile which was clicked
-  getTile(offsetX, offsetY){
+  getTile(offsetX : number, offsetY : number){
     return [Math.floor(offsetY / this.tileWidth), Math.floor(offsetX / this.tileWidth)];
   }
 
+  //reveals the tile at the position given, ends the game if it is a mine
+  revealTile(tilePosition : number[]){
+
+    
+
+  }
+
+  //clears all the '0' cells next to the clicked cell
+  clearAround(clickPosition : number[]){
+  console.log(clickPosition);
+    for (let i = -1; i <= 1; i++)
+      for (let j = -1; j <= 1; j++){
+
+        //TODO - add check for flag!
+
+        if (clickPosition[0] + i >= 0 && clickPosition[0] + i < this.gameSettings[0]
+          && clickPosition[1] + j >= 0 && clickPosition[1] + j < this.gameSettings[0]
+          && !this.clickfield[clickPosition[0] + i][clickPosition[1] + j]
+          && this.minefield[clickPosition[0] + i][clickPosition[1] + j] == 0){
+          this.clickfield[clickPosition[0] + i][clickPosition[1] + j] = true;
+          this.clearAround([clickPosition[0] + i, clickPosition[1] + j]);
+        }
+
+      }
+
+  }
+
   //happens when the user hits the 'New Game' button
-  newGame(startPosition){
+  newGame(startPosition : number[]){
 
     //resizes the clickfield
     this.clickfield = [];
@@ -139,13 +165,18 @@ export class MinefieldComponentComponent implements OnInit {
       for (let y = -1; y <= 1; y++)
         for (let x = -1; x <= 1; x++)
           if (mineList[i][0] + y >= 0 && mineList[i][0] + y < this.gameSettings[0]
-            && mineList[i][1] + x >= 0 && mineList[i][1] + x < this.gameSettings[0] 
+            && mineList[i][1] + x >= 0 && mineList[i][1] + x < this.gameSettings[0]
             && this.minefield[mineList[i][0] + y][mineList[i][1] + x] != -1) //this if-statement really sucks but whatever
             this.minefield[mineList[i][0] + y][mineList[i][1] + x]++;
     }
 
+    this.clickfield[startPosition[0]][startPosition[1]] = true;
+
+    this.clearAround(startPosition);
+
     this.gameStarted = true;
     console.log(this.minefield);
+    console.log(this.clickfield);
   }
 
 }

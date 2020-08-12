@@ -11,12 +11,12 @@
                             ">
 </div>
 <br>
-<div (click)="onClick($event)" class="gameBoard" style="
+<div  class="gameBoard" style="
                             width: {{gameSettings[0] * tileWidth}}px;
                             height: {{gameSettings[0] * tileWidth}}px;
                             background-color: black;
                             border-style: solid;
                             font-size: 0;
                             ">
-    <img src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" class="tile{{i}}">
+    <img (click)="onClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
 </div>
