@@ -14,17 +14,17 @@ export class MinefieldComponentComponent implements OnInit {
   //holds all the URL's for the various different tiles
   public boxURL = {
     "-1": "/assets/img/tile-clicked-mine.png",
-    "0": "/assets/img/tile-clicked-0.png",
-    "1": "/assets/img/tile-clicked-1.png",
-    "2": "/assets/img/tile-clicked-2.png",
-    "3": "/assets/img/tile-clicked-3.png",
-    "4": "/assets/img/tile-clicked-4.png",
-    "5": "/assets/img/tile-clicked-5.png",
-    "6": "/assets/img/tile-clicked-6.png",
-    "7": "/assets/img/tile-clicked-7.png",
-    "8": "/assets/img/tile-clicked-8.png",
-    "9": "/assets/img/tile-clicked-9.png",
-    "unc": "/assets/img/tile-unclicked.png"
+    "0": "https://imgur.com/E8HguTs.png",
+    "1": "https://imgur.com/G2PDa0m.png",
+    "2": "https://imgur.com/jcoxwVT.png",
+    "3": "https://imgur.com/8Ws7okp.png",
+    "4": "https://imgur.com/lpo40St.png",
+    "5": "https://imgur.com/JzffpPW.png",
+    "6": "https://imgur.com/BfxPFKh.png",
+    "7": "https://imgur.com/ldCgjda.png",
+    "8": "https://imgur.com/5hvA1lL.png",
+    "9": "https://imgur.com/NlqXinE.png",
+    "unc": "https://imgur.com/lMg0TjQ.png"
   }
 
   //utility variables
@@ -65,8 +65,6 @@ export class MinefieldComponentComponent implements OnInit {
       this.newGame(clickPosition);
     else {
 
-      //TODO
-
       this.revealTile(clickPosition);
 
     }
@@ -103,6 +101,10 @@ export class MinefieldComponentComponent implements OnInit {
     if (this.clickfield[tilePosition[0]][tilePosition[1]])
       return;
     else{
+      if (this.minefield[tilePosition[0]][tilePosition[1]] == -1){
+        this.endGame();
+        return;
+      }
       this.clickfield[tilePosition[0]][tilePosition[1]] = true;
       this.clearAround(tilePosition);
     }
