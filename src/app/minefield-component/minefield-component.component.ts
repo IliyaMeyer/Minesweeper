@@ -7,12 +7,27 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MinefieldComponentComponent implements OnInit {
 
-  //sets the URLs for various image files
-  public unclickedTileURL = "/assets/img/tile-unclicked.png";
-  public clicked0TileURL = "/assets/img/tile-clicked-0.png";
-
-  //holds all the URL's for the various different tiles
-  public boxURL = {
+    //sets the URLs for various image files
+    public unclickedTileURL = "/assets/img/tile-unclicked.png";
+    public clicked0TileURL = "/assets/img/tile-clicked-0.png";
+  
+    //holds all the URL's for the various different tiles
+    public boxURL = {
+      "-1": "/assets/img/tile-clicked-mine.png",
+      "0": "/assets/img/tile-clicked-0.png",
+      "1": "/assets/img/tile-clicked-1.png",
+      "2": "/assets/img/tile-clicked-2.png",
+      "3": "/assets/img/tile-clicked-3.png",
+      "4": "/assets/img/tile-clicked-4.png",
+      "5": "/assets/img/tile-clicked-5.png",
+      "6": "/assets/img/tile-clicked-6.png",
+      "7": "/assets/img/tile-clicked-7.png",
+      "8": "/assets/img/tile-clicked-8.png",
+      "9": "/assets/img/tile-clicked-9.png",
+      "unc": "/assets/img/tile-unclicked.png"
+    }
+  
+  /*public boxURL = {
     "-1": "/assets/img/tile-clicked-mine.png",
     "0": "https://imgur.com/E8HguTs.png",
     "1": "https://imgur.com/G2PDa0m.png",
@@ -25,13 +40,14 @@ export class MinefieldComponentComponent implements OnInit {
     "8": "https://imgur.com/5hvA1lL.png",
     "9": "https://imgur.com/NlqXinE.png",
     "unc": "https://imgur.com/lMg0TjQ.png"
-  }
-
+  }*/
+  
   //utility variables
   public minefield = [];
   public clickfield = []; //stores which mines have been clicked
   public totalMines; //how many mines are currently on the board
-  public gameStarted = false;
+  public gameStarted = false; //whether or not the game has started
+  public gameFailed = false; //whether or not the user has failed the game
   @Input() public gameSettings = []; //the game's settings - [size, difficulty]
 
   //constants
@@ -48,6 +64,7 @@ export class MinefieldComponentComponent implements OnInit {
   //ends the game
   public endGame(){
     this.gameStarted = false;
+    this.gameFailed = false;
   }
 
   //specifically used for the ngFor in the html for buidling the tile images
@@ -57,6 +74,11 @@ export class MinefieldComponentComponent implements OnInit {
 
   //occurs whenever the user clicks a tile
   onClick(i : number){
+
+    //ignore the click if the user has failed the game
+    if (this.gameFailed)
+      return;
+
     //gets the coordinates of the tile which was clicked
     let clickPosition = this.nToXYIndex(i);
 
@@ -102,7 +124,7 @@ export class MinefieldComponentComponent implements OnInit {
       return;
     else{
       if (this.minefield[tilePosition[0]][tilePosition[1]] == -1){
-        this.endGame();
+        this.mineTrip();
         return;
       }
       this.clickfield[tilePosition[0]][tilePosition[1]] = true;
@@ -184,12 +206,22 @@ export class MinefieldComponentComponent implements OnInit {
     }
 
     this.revealTile(startPosition);
-    
-    console.log(startPosition);
-
     this.gameStarted = true;
-    console.log(this.minefield);
-    console.log(this.clickfield);
+
+  }
+
+  //disables the board after revealing all the mines
+  mineTrip(){
+
+    for (let i = 0; i < this.gameSettings[0]; i++)
+      for (let j = 0; j < this.gameSettings[0]; j++)
+        if (this.minefield[i][j] == -1)
+          this.clickfield[i][j] = true;
+
+    this.gameFailed = true;
+
+    //this.endGame();
+
   }
 
 }
