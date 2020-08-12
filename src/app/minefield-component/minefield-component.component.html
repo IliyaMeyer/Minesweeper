@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 
 {{gameSettings[0]}} {{gameSettings[1]}}
-
-<div (click)="onClick($event)" class="gameBoard" style="
-                            width: {{gameSettings[0] * tileWidth}}px;
-                            height: {{gameSettings[0] * tileWidth}}px;
-                            background-image: url({{boxURL['unc']}});
-                            background-color: black;
-                            border-style: solid;
-                            ">
-</div>
 <br>
 <div  class="gameBoard" style="
                             width: {{gameSettings[0] * tileWidth}}px;
@@ -20,3 +11,4 @@
                             ">
     <img (click)="onClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
 </div>
+{{gameStarted}}

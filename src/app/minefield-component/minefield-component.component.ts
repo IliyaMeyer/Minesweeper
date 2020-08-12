@@ -30,8 +30,8 @@ export class MinefieldComponentComponent implements OnInit {
   //utility variables
   public minefield = [];
   public clickfield = []; //stores which mines have been clicked
-  public gameStarted = false;
   public totalMines; //how many mines are currently on the board
+  public gameStarted = false;
   @Input() public gameSettings = []; //the game's settings - [size, difficulty]
 
   //constants
@@ -43,6 +43,11 @@ export class MinefieldComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  //ends the game
+  public endGame(){
+    this.gameStarted = false;
   }
 
   //specifically used for the ngFor in the html for buidling the tile images
@@ -116,7 +121,6 @@ export class MinefieldComponentComponent implements OnInit {
           && tilePosition[1] + j >= 0 && tilePosition[1] + j < this.gameSettings[0]
           && !this.clickfield[tilePosition[0] + i][tilePosition[1] + j]){
           this.revealTile([tilePosition[0] + i, tilePosition[1] + j]);
-         // this.clearAround([tilePosition[0] + i, tilePosition[1] + j]);
       
       }
 
