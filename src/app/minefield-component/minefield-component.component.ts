@@ -62,6 +62,8 @@ export class MinefieldComponentComponent implements OnInit {
 
       //TODO
 
+      this.revealTile(clickPosition);
+
     }
 
   }
@@ -91,26 +93,31 @@ export class MinefieldComponentComponent implements OnInit {
   //reveals the tile at the position given, ends the game if it is a mine
   revealTile(tilePosition : number[]){
 
-    
+    //TODO - add check for mine!
+
+    if (this.clickfield[tilePosition[0]][tilePosition[1]])
+      return;
+    else{
+      this.clickfield[tilePosition[0]][tilePosition[1]] = true;
+      this.clearAround(tilePosition);
+    }
 
   }
 
-  //clears all the '0' cells next to the clicked cell
-  clearAround(clickPosition : number[]){
-  console.log(clickPosition);
+  //clears all the '0' cells next to the cell
+  clearAround(tilePosition : number[]){
+
+    if (this.minefield[tilePosition[0]][tilePosition[1]] != 0)
+      return;
+
     for (let i = -1; i <= 1; i++)
-      for (let j = -1; j <= 1; j++){
-
-        //TODO - add check for flag!
-
-        if (clickPosition[0] + i >= 0 && clickPosition[0] + i < this.gameSettings[0]
-          && clickPosition[1] + j >= 0 && clickPosition[1] + j < this.gameSettings[0]
-          && !this.clickfield[clickPosition[0] + i][clickPosition[1] + j]
-          && this.minefield[clickPosition[0] + i][clickPosition[1] + j] == 0){
-          this.clickfield[clickPosition[0] + i][clickPosition[1] + j] = true;
-          this.clearAround([clickPosition[0] + i, clickPosition[1] + j]);
-        }
-
+      for (let j = -1; j <= 1; j++)
+        if (tilePosition[0] + i >= 0 && tilePosition[0] + i < this.gameSettings[0]
+          && tilePosition[1] + j >= 0 && tilePosition[1] + j < this.gameSettings[0]
+          && !this.clickfield[tilePosition[0] + i][tilePosition[1] + j]){
+          this.revealTile([tilePosition[0] + i, tilePosition[1] + j]);
+         // this.clearAround([tilePosition[0] + i, tilePosition[1] + j]);
+      
       }
 
   }
@@ -152,7 +159,7 @@ export class MinefieldComponentComponent implements OnInit {
       let dropX = Math.floor((Math.random() * this.gameSettings[0]));
 
       //makes sure that the mine spot is neither the first tile that was clicked nor already mined before placing the mine
-      if (!(dropY == startPosition[0] && dropX == startPosition[0]) && this.minefield[dropY][dropX] != -1){
+      if (!(dropY >= startPosition[0] - 1 && dropY <= startPosition[0] + 1 && dropX >= startPosition[1] - 1 && dropX <= startPosition[1] + 1) && this.minefield[dropY][dropX] != -1){
         mineList.push([dropY, dropX]);
         this.minefield[dropY][dropX] = -1;
         mines--;
@@ -170,9 +177,9 @@ export class MinefieldComponentComponent implements OnInit {
             this.minefield[mineList[i][0] + y][mineList[i][1] + x]++;
     }
 
-    this.clickfield[startPosition[0]][startPosition[1]] = true;
-
-    this.clearAround(startPosition);
+    this.revealTile(startPosition);
+    
+    console.log(startPosition);
 
     this.gameStarted = true;
     console.log(this.minefield);
