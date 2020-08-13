@@ -9,5 +9,5 @@
                             border-style: solid;
                             font-size: 0;
                             ">
-    <img (click)="onClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
+    <img (click)="onClick(i)" (contextmenu)="onRightClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
 </div>

@@ -24,7 +24,9 @@ export class MinefieldComponentComponent implements OnInit {
       "7": "/assets/img/tile-clicked-7.png",
       "8": "/assets/img/tile-clicked-8.png",
       "9": "/assets/img/tile-clicked-9.png",
-      "unc": "/assets/img/tile-unclicked.png"
+      "unc": "/assets/img/tile-unclicked.png",
+      "flag": "/assets/img/tile-flagged.png",
+      "question": "/assets/img/tile-questioned.png"
     }
   
   /*public boxURL = {
@@ -47,7 +49,7 @@ export class MinefieldComponentComponent implements OnInit {
   public clickfield = []; //stores which mines have been clicked
   public totalMines; //how many mines are currently on the board
   public gameStarted = false; //whether or not the game has started
-  public gameFailed = false; //whether or not the user has failed the game
+  public gameEnded = false; //whether or not the user has failed the game
   @Input() public gameSettings = []; //the game's settings - [size, difficulty]
 
   //constants
@@ -64,7 +66,7 @@ export class MinefieldComponentComponent implements OnInit {
   //ends the game
   public endGame(){
     this.gameStarted = false;
-    this.gameFailed = false;
+    this.gameEnded = false;
   }
 
   //specifically used for the ngFor in the html for buidling the tile images
@@ -72,11 +74,38 @@ export class MinefieldComponentComponent implements OnInit {
     return Array(this.gameSettings[0] * this.gameSettings[0]);
   }
 
-  //occurs whenever the user clicks a tile
+  //occurs whenever the user right clicks a tile
+  onRightClick(i : number){
+    
+    //gets the coordinates of the tile which was clicked
+    let clickPosition = this.nToXYIndex(i);
+
+    //ignore the click if the game has ended or has not started or if the tile has already been clicked
+    if (this.gameEnded || !this.gameStarted || this.clickfield[clickPosition[0]][clickPosition[1]] == 1)
+      return false;
+
+      //changes the glyph on the unclicked tile depending on what it is currently
+      switch (this.clickfield[clickPosition[0]][clickPosition[1]]){
+        case 0:
+          this.clickfield[clickPosition[0]][clickPosition[1]] = 2;
+          break;
+        case 2:
+          this.clickfield[clickPosition[0]][clickPosition[1]] = 3;
+          break;
+        case 3:
+          this.clickfield[clickPosition[0]][clickPosition[1]] = 0;
+          break;
+      }
+
+    return false;
+
+  }
+
+  //occurs whenever the user left clicks a tile
   onClick(i : number){
 
-    //ignore the click if the user has failed the game
-    if (this.gameFailed)
+    //ignore the click if the game has ended
+    if (this.gameEnded)
       return;
 
     //gets the coordinates of the tile which was clicked
@@ -104,10 +133,18 @@ export class MinefieldComponentComponent implements OnInit {
     if (!this.gameStarted)
       return this.boxURL["unc"];
     let cords = this.nToXYIndex(position);
-    if (this.clickfield[cords[0]][cords[1]])
-      return this.boxURL[this.minefield[cords[0]][cords[1]].toString()];
-    else
-      return this.boxURL["unc"];
+
+    switch (this.clickfield[cords[0]][cords[1]]){
+      case 0:
+        return this.boxURL["unc"];
+      case 1:
+        return this.boxURL[this.minefield[cords[0]][cords[1]].toString()];
+      case 2:
+        return this.boxURL["flag"];
+      case 3:
+        return this.boxURL["question"];
+    }
+
   }
 
   //given the position of a click relative to the board component, returns coordinates of the tile which was clicked
@@ -118,16 +155,14 @@ export class MinefieldComponentComponent implements OnInit {
   //reveals the tile at the position given, ends the game if it is a mine
   revealTile(tilePosition : number[]){
 
-    //TODO - add check for mine!
-
-    if (this.clickfield[tilePosition[0]][tilePosition[1]])
+    if (this.clickfield[tilePosition[0]][tilePosition[1]] == 1)
       return;
     else{
       if (this.minefield[tilePosition[0]][tilePosition[1]] == -1){
         this.mineTrip();
         return;
       }
-      this.clickfield[tilePosition[0]][tilePosition[1]] = true;
+      this.clickfield[tilePosition[0]][tilePosition[1]] = 1;
       this.clearAround(tilePosition);
     }
 
@@ -143,7 +178,7 @@ export class MinefieldComponentComponent implements OnInit {
       for (let j = -1; j <= 1; j++)
         if (tilePosition[0] + i >= 0 && tilePosition[0] + i < this.gameSettings[0]
           && tilePosition[1] + j >= 0 && tilePosition[1] + j < this.gameSettings[0]
-          && !this.clickfield[tilePosition[0] + i][tilePosition[1] + j]){
+          && this.clickfield[tilePosition[0] + i][tilePosition[1] + j] != 1){
           this.revealTile([tilePosition[0] + i, tilePosition[1] + j]);
       
       }
@@ -156,7 +191,7 @@ export class MinefieldComponentComponent implements OnInit {
     //resizes the clickfield
     this.clickfield = [];
     for (let i = 0; i < this.gameSettings[0]; i++)
-    this.clickfield.push(new Array(this.gameSettings[0]).fill(false));
+    this.clickfield.push(new Array(this.gameSettings[0]).fill(0));
 
     //initializes all the values in the board to be 0
     this.minefield = [];
@@ -187,7 +222,9 @@ export class MinefieldComponentComponent implements OnInit {
       let dropX = Math.floor((Math.random() * this.gameSettings[0]));
 
       //makes sure that the mine spot is neither the first tile that was clicked nor already mined before placing the mine
-      if (!(dropY >= startPosition[0] - 1 && dropY <= startPosition[0] + 1 && dropX >= startPosition[1] - 1 && dropX <= startPosition[1] + 1) && this.minefield[dropY][dropX] != -1){
+      if (!(dropY >= startPosition[0] - 1 && dropY <= startPosition[0] + 1
+        && dropX >= startPosition[1] - 1 && dropX <= startPosition[1] + 1)
+        && this.minefield[dropY][dropX] != -1){
         mineList.push([dropY, dropX]);
         this.minefield[dropY][dropX] = -1;
         mines--;
@@ -216,9 +253,9 @@ export class MinefieldComponentComponent implements OnInit {
     for (let i = 0; i < this.gameSettings[0]; i++)
       for (let j = 0; j < this.gameSettings[0]; j++)
         if (this.minefield[i][j] == -1)
-          this.clickfield[i][j] = true;
+          this.clickfield[i][j] = 1;
 
-    this.gameFailed = true;
+    this.gameEnded = true;
 
     //this.endGame();
 
