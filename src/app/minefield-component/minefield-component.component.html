@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
-{{gameSettings[0]}} {{gameSettings[1]}}
-<br>
+<div class="infoPanel"></div>
 <div  class="gameBoard" style="
                             width: {{gameSettings[0] * tileWidth}}px;
                             height: {{gameSettings[0] * tileWidth}}px;
@@ -11,4 +9,3 @@
                             ">
     <img (click)="onClick(i)" (contextmenu)="onRightClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
 </div>
-{{markedMines}} {{totalMines}} {{clearedTiles}} {{this.gameSettings[0] * this.gameSettings[0]}}
