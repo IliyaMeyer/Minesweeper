@@ -48,8 +48,10 @@ export class MinefieldComponentComponent implements OnInit {
   public minefield = [];
   public clickfield = []; //stores which mines have been clicked
   public totalMines; //how many mines are currently on the board
+  public markedMines; //how many mines have been marked
   public gameStarted = false; //whether or not the game has started
   public gameEnded = false; //whether or not the user has failed the game
+  public clearedTiles; //the total tiles that the user has cleared
   @Input() public gameSettings = []; //the game's settings - [size, difficulty]
 
   //constants
@@ -67,6 +69,8 @@ export class MinefieldComponentComponent implements OnInit {
   public endGame(){
     this.gameStarted = false;
     this.gameEnded = false;
+    this.markedMines = 0;
+    this.clearedTiles = 0;
   }
 
   //specifically used for the ngFor in the html for buidling the tile images
@@ -88,9 +92,12 @@ export class MinefieldComponentComponent implements OnInit {
       switch (this.clickfield[clickPosition[0]][clickPosition[1]]){
         case 0:
           this.clickfield[clickPosition[0]][clickPosition[1]] = 2;
+          this.markedMines++;
+          this.checkWin();
           break;
         case 2:
           this.clickfield[clickPosition[0]][clickPosition[1]] = 3;
+          this.markedMines--;
           break;
         case 3:
           this.clickfield[clickPosition[0]][clickPosition[1]] = 0;
@@ -117,6 +124,8 @@ export class MinefieldComponentComponent implements OnInit {
     else {
 
       this.revealTile(clickPosition);
+
+      this.checkWin();
 
     }
 
@@ -162,7 +171,10 @@ export class MinefieldComponentComponent implements OnInit {
         this.mineTrip();
         return;
       }
+      if (this.clickfield[tilePosition[0]][tilePosition[1]] != 0)
+        this.markedMines--;
       this.clickfield[tilePosition[0]][tilePosition[1]] = 1;
+      this.clearedTiles++;
       this.clearAround(tilePosition);
     }
 
@@ -242,6 +254,8 @@ export class MinefieldComponentComponent implements OnInit {
             this.minefield[mineList[i][0] + y][mineList[i][1] + x]++;
     }
 
+    this.clearedTiles = 0;
+    this.markedMines = 0;
     this.revealTile(startPosition);
     this.gameStarted = true;
 
@@ -258,6 +272,16 @@ export class MinefieldComponentComponent implements OnInit {
     this.gameEnded = true;
 
     //this.endGame();
+
+  }
+
+  //checks if the user wins
+  checkWin(){
+
+    if (this.markedMines == this.totalMines && this.clearedTiles == this.gameSettings[0] * this.gameSettings[0] - this.totalMines){
+      console.log('WIN');
+      this.endGame();
+    }
 
   }
 

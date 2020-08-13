@@ -11,3 +11,4 @@
                             ">
     <img (click)="onClick(i)" (contextmenu)="onRightClick(i)" src="{{setTile(i)}}" *ngFor="let rep of tileBuilder(); index as i" >
 </div>
+{{markedMines}} {{totalMines}} {{clearedTiles}} {{this.gameSettings[0] * this.gameSettings[0]}}
